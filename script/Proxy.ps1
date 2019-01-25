@@ -6,6 +6,8 @@ git config --global --replace-all https.proxy ?
 git config --global --unset http.proxy
 git config --global --unset https.proxy
 }
+$h = "proxy.mms-dresden.de"
+$PORT = "8080"
 if($Qm -eq "s"){
 $Proxy = Read-Host "Do you want to set a new Proxy? Y/N"
 if($Proxy -eq "Y"){
