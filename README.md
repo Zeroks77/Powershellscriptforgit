@@ -6,4 +6,4 @@ Außerdem hat mich die default Location in der Powershell mit den Shortcuts ```W
 
 
 ## LocationScript
-Das Locationscript muss man in C:\User\Documents\WindowsPowerShell\ platzieren. Exestiert der Ordner WindowsPowerShell bei euch nicht, erstellt einfach einen :)
+Das Locationscript muss man in ```C:\User\Documents\WindowsPowerShell\``` platzieren. Exestiert der Ordner WindowsPowerShell bei euch nicht, erstellt einfach einen :)
