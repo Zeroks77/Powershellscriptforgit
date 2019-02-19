@@ -26,7 +26,8 @@ if ($autopull -match '[yY]')
 
     $stopWatch = [System.Diagnostics.Stopwatch]::StartNew();
     $pullTimeSpan = New-TimeSpan -Minutes 90;
-    $commitTimeSpan = New-TimeSpan -Minutes 30;
+    $commitTimeSpan = New-TimeSpan -Minutes 0;
+    $committime = 0;
     git pull;
     $one = 1;
    while (2 -ge $one) 
@@ -34,19 +35,17 @@ if ($autopull -match '[yY]')
         if($stopWatch.Elapsed -ge $pullTimeSpan) 
         {
             $stopWatch.Reset();
+            $committime = 0;
             git pull;
             git push;
         }
         if($stopWatch.Elapsed -ge $commitTimeSpan) 
         {
-            git status
-           Write-Host -Prompt "Dont forget to commit your Work"
+            $committime = $committime + 20;
+            $commitTimeSpan = New-TimeSpan -Minutes $committime;
+           Write-Host "Dont forget to commit your Work" -ForegroundColor Red
+           Write-Host "`n"
+           git status
         }
     }}'
 }
-
-
-
-
-
-
