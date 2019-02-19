@@ -17,7 +17,7 @@ git status
 }
 
 
-$autopull = Read-Host -Prompt 'Do you want to Autopull every 90 min. ? Y/N'
+$autopull = Read-Host -Prompt 'Do you want to Auto-Pull and -Push every 90 min. ? Y/N'
 if ($autopull -match '[yY]')
 {
     $Location = Get-Location -PSDrive C;
@@ -25,17 +25,26 @@ if ($autopull -match '[yY]')
     invoke-expression 'cmd /c start powershell -NoProfile -NoExit -Command {Set-Location "$Location";
 
     $stopWatch = [System.Diagnostics.Stopwatch]::StartNew();
-    $timeSpan = New-TimeSpan -Minutes 90;
+    $pullTimeSpan = New-TimeSpan -Minutes 90;
+    $commitTimeSpan = New-TimeSpan -Minutes 30;
+    git pull;
     $one = 1;
    while (2 -ge $one) 
    {
-        if($stopWatch.Elapsed -ge $timeSpan) 
+        if($stopWatch.Elapsed -ge $pullTimeSpan) 
         {
             $stopWatch.Reset();
             git pull;
+            git push;
+        }
+        if($stopWatch.Elapsed -ge $commitTimeSpan) 
+        {
+            git status
+           Write-Host -Prompt "Dont forget to commit your Work"
         }
     }}'
 }
+
 
 
 
