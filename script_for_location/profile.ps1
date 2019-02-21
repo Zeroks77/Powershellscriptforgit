@@ -24,7 +24,7 @@ if ($autopull -match '[yY]')
     if(-not ($execpol -match '[uU]nrestricted')) {
         set-executionpolicy unrestricted
     }
-        start-process powershell -Verb runAs -ArgumentList('-noprofile','-File C:\Users\doma\Documents\WindowsPowerShell\autoscript.ps1 -pullPushTimeSpan 90')
+        start-process powershell -Verb runAs -ArgumentList('-noprofile','-File ~\Documents\WindowsPowerShell\autoscript.ps1 -pullPushTimeSpan 90')
 
         if((get-executionpolicy) -ne $execpol)
     {
