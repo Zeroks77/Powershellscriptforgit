@@ -16,36 +16,19 @@ git status
     git status
 }
 
-
 $autopull = Read-Host -Prompt 'Do you want to Auto-Pull and -Push every 90 min. ? Y/N'
 if ($autopull -match '[yY]')
 {
     $Location = Get-Location -PSDrive C;
-    
-    invoke-expression 'cmd /c start powershell -NoProfile -NoExit -Command {Set-Location "$Location";
+    $execpol = get-executionpolicy
+    if(-not ($execpol -match '[uU]nrestricted')) {
+        set-executionpolicy unrestricted
+    }
+        start-process powershell -Verb runAs -ArgumentList('-noprofile','-File C:\Users\doma\Documents\WindowsPowerShell\autoscript.ps1 -pullPushTimeSpan 90')
 
-    $stopWatch = [System.Diagnostics.Stopwatch]::StartNew();
-    $pullTimeSpan = New-TimeSpan -Minutes 90;
-    $commitTimeSpan = New-TimeSpan -Minutes 0;
-    $committime = 0;
-    git pull;
-    $one = 1;
-   while (2 -ge $one) 
-   {
-        if($stopWatch.Elapsed -ge $pullTimeSpan) 
-        {
-            $stopWatch.Reset();
-            $committime = 0;
-            git pull;
-            git push;
-        }
-        if($stopWatch.Elapsed -ge $commitTimeSpan) 
-        {
-            $committime = $committime + 20;
-            $commitTimeSpan = New-TimeSpan -Minutes $committime;
-           Write-Host "Dont forget to commit your Work" -ForegroundColor Red
-           Write-Host "`n"
-           git status
-        }
-    }}'
+        if((get-executionpolicy) -ne $execpol)
+    {
+        set-executionpolicy $execpol
+        write-host "$(get-executionpolicy)"
+    }
 }
